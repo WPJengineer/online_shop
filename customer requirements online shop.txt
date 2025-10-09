@@ -1,0 +1,46 @@
+customer requirements online shop
+
+-see the products
+	-categories
+		-multiple categories per product
+	-product information
+-select the product(s)
+	-shopping cart
+	-wish list
+-buy the product(s)
+	-ticket
+		-invoices
+		-customer information
+	-payment method
+-reviews
+-filter products (Price, size, gender, colour)
+-return product
+-claim channel
+-loyalty program & membership
+
+------------------------------------------------------------------------
+
+CREATE TABLE customers(
+	customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    forename VARCHAR(100),
+    lastname VARCHAR(100)
+);
+
+CREATE TABLE products(
+	product_id INT PRIMARY KEY AUTO_INCREMENT,
+	product_name VARCHAR(300),
+   	product_unit_price DECIMAL(10, 2)
+);
+
+CREATE TABLE categories(
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    category_name VARCHAR(300)
+);
+
+CREATE TABLE product_category(
+    product_id INT,
+    category_id INT,
+    PRIMARY KEY (product_id, category_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);

@@ -1,0 +1,356 @@
+ftpusername: student014
+ftppassword: 12345678# -> JoshuaK608071596#
+
+database name for remotehost: dwesdatabase
+database username: dwess1234
+database password: test1234.
+
+Naming standardisation:
+`014_tableName`
+`014_procedureName`
+
+localhost/student014/shop/backend/index.php
+remotehost.es/student014/shop/backend/index.php
+
+--------------------------------------------------------------------------
+
+CREATE TABLE customer(
+	customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    forename VARCHAR(100),
+    lastname VARCHAR(100)
+);
+
+INSERT INTO customer
+	(forename, lastname)
+VALUES
+	('John', 'Smith'),
+	('James', 'Johnson'),
+	('Michael', 'Williams'),
+	('Robert', 'Brown'),
+	('David', 'Jones'),
+	('William', 'Garcia'),
+	('Richard', 'Miller'),
+	('Joseph', 'Davis'),
+	('Thomas', 'Rodrigues'),
+	('Charles', 'Lopez')
+	;
+
+CREATE TABLE product(
+	product_id INT PRIMARY KEY AUTO_INCREMENT,
+	product_name VARCHAR(300),
+   	product_unit_price DECIMAL(10, 2)
+);
+
+INSERT INTO product
+	(product_name, product_unit_price)
+VALUES
+	('trousers', 50.00),
+	('socks', 10.00),
+	('sunglasses', 25.00),
+	('baseball cap', 30.00),
+	('hoodie', 40.00),
+	('sweater', 40.00),
+	('underwear', 15.00),
+	('vest', 20.00),
+	('shirt', 20.00),
+	('shoes', 50.00)
+	;
+
+CREATE TABLE category(
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    category_name VARCHAR(300)
+);
+
+INSERT INTO category
+	(category_name)
+VALUES
+	('men'),
+	('women'),
+	('kids'),
+	('summer'),
+	('winter'),
+	('casual'),
+	('formal')
+	;
+
+CREATE TABLE product_category(
+    product_id INT,
+    category_id INT,
+    PRIMARY KEY (product_id, category_id)
+);
+
+INSERT INTO product_category
+	(product_id, category_id)
+VALUES
+	(1, 1),
+	(1, 2),
+	(1, 3),
+	(1, 6),
+	(1, 7),
+	(2, 1),
+	(2, 2),
+	(2, 3),
+	(3, 1),
+	(3, 2),
+	(3, 3),
+	(4, 3),
+	(5, 1),
+	(5, 2),
+	(5, 3),
+	(6, 1),
+	(6, 2),
+	(6, 3),
+	(7, 1),
+	(7, 2),
+	(7, 3),
+	(8, 1),
+	(8, 2),
+	(8, 6),
+	(8, 7),
+	(9, 1),
+	(9, 2),
+	(9, 3),
+	(9, 6),
+	(9, 7),
+	(10, 1),
+	(10, 2),
+	(10, 3),
+	(10, 4),
+	(10, 5),
+	(10, 6),
+	(10, 7)
+	;
+
+CREATE TABLE shopping_cart(
+    customer_id INT,
+    product_id INT,
+    quantity INT,
+    inserted_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (product_id) REFERENCES product(product_id),
+    PRIMARY KEY (customer_id, product_id)
+);
+
+INSERT INTO shopping_cart
+	(customer_id, product_id, quantity)
+VALUES
+	(10, 1, 10),
+	(9, 2, 10),
+	(8, 3, 10),
+	(7, 4, 20),
+	(6, 5, 20),
+	(5, 6, 20),
+	(4, 7, 30),
+	(3, 8, 10),
+	(2, 9, 10),
+	(1, 10, 10)
+	;
+
+CREATE TABLE orders(
+    order_number INT,
+    customer_id INT,
+    product_id INT,
+    quantity INT,
+    product_unit_price DECIMAL(10, 2),
+    placed_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (product_id) REFERENCES product(product_id),
+    PRIMARY KEY (order_number, customer_id, product_id)
+);
+
+INSERT INTO orders
+	(order_number, customer_id, product_id, quantity, product_unit_price)
+VALUES
+	(1, 10, 1, 10, 50.00),
+	(2, 9, 2, 10, 10.00),
+	(3, 8, 3, 10, 25.00),
+	(4, 7, 4, 20, 30.00),
+	(5, 6, 5, 20, 40.00),
+	(6, 5, 6, 20, 20.00),
+	(7, 4, 7, 30, 15.00),
+	(8, 3, 8, 10, 20.00),
+	(9, 2, 9, 10, 20.00),
+	(10, 1, 10, 10, 50.00)
+	;
+
+UPDATE orders
+SET product_unit_price = 10
+WHERE product_unit_price = NULL;
+
+CREATE TABLE address(
+    address_id INT PRIMARY KEY AUTO_INCREMENT,
+    country VARCHAR(100),
+    state VARCHAR(100),
+    city VARCHAR(100),
+    direction VARCHAR(100),
+    zipcode VARCHAR(100)
+);
+
+INSERT INTO address
+	(country, state, city, direction, zipcode)
+VALUES
+	('spain', 'catalunya', 'barcelona', 'carrer gran 6', '09940'),
+	('united kingdom', 'worchestershire', 'malvern', 'red earl lane 21', 'wr14'),
+	('france', 'ile-de-france', 'paris', 'boulevard peripherique 50', '70123'),
+	('spain', 'islas baleares', 'mahon', 'cami de biniguarda 23', '07740'),
+	('germany', 'brandenburg', 'berlin', 'schonhauser allee 10', '11057'),
+	('united kingdom', 'west midlands', 'birmingham', 'blue lane 3', 'bh55'),
+	('spain', 'madrid', 'majadahonda', 'calle baja 4', '08850'),
+	('spain', 'islas baleares', 'alaior', 'calle virgen del carmen 5', '07753'),
+	('spain', 'andalusia', 'granada', 'calle arriba 54', '09960'),
+	('united kingdom', 'devon', 'plymouth', 'tralawney lane 8', 'pm54')
+	;
+
+CREATE TABLE address_customer(
+    customer_id INT,
+    address_id INT,
+    default_address BOOLEAN,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (address_id) REFERENCES address(address_id),
+    PRIMARY KEY (customer_id, address_id)
+);
+
+INSERT INTO address_customer
+	(customer_id, address_id, default_address)
+VALUES
+	(1, 10, TRUE),
+	(2, 9, TRUE),
+	(3, 8, TRUE),
+	(4, 7, TRUE),
+	(5, 6, TRUE),
+	(6, 5, TRUE),
+	(7, 4, TRUE),
+	(8, 3, TRUE),
+	(9, 2, TRUE),
+	(10, 1, TRUE)
+	;
+
+CREATE TABLE payment(
+    payment_id INT PRIMARY KEY AUTO_INCREMENT,
+    payment_method ENUM('credit card', 'paypal', 'bizum')
+);
+
+INSERT INTO payment
+	(payment_method)
+VALUES
+	('credit card'),
+	('credit card'),
+	('credit card'),
+	('paypal'),
+	('credit card'),
+	('credit card'),
+	('paypal'),
+	('bizum'),
+	('credit card'),
+	('credit card')
+	;
+
+CREATE TABLE payment_customer(
+    customer_id INT,
+    payment_id INT,
+    default_payment BOOLEAN,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (payment_id) REFERENCES payment(payment_id),
+    PRIMARY KEY (customer_id, payment_id)
+);
+
+INSERT INTO payment_customer
+	(customer_id, payment_id, default_payment)
+VALUES
+	(10, 1, TRUE),
+	(9, 2, TRUE),
+	(8, 3, TRUE),
+	(7, 4, TRUE),
+	(6, 5, TRUE),
+	(5, 6, TRUE),
+	(4, 7, TRUE),
+	(3, 8, TRUE),
+	(2, 9, TRUE),
+	(1, 10, TRUE)
+	;
+
+-------------------------------------------------------------------
+-- order_view 
+
+SELECT o.order_number, CONCAT(c.forename, ' ', c.lastname) AS 'customer name', p.product_name, o.quantity, (p.product_unit_price * o.quantity) AS 'total price', o.placed_on
+FROM orders AS o
+INNER JOIN customer AS c ON o.customer_id = c.customer_id
+INNER JOIN product AS p ON o.product_id = p.product_id
+ORDER BY o.placed_on DESC
+;
+
+-------------------------------------------------------------------
+
+-- views create a way of additional information we can show using select clauses.
+
+
+
+-- popular products --
+CREATE VIEW most_popular_product AS
+SELECT p.product_id , p.product_name, SUM(o.quantity) AS quantity
+FROM orders AS o
+INNER JOIN product AS p ON o.product_id = p.product_id
+GROUP BY p.product_id
+ORDER BY quantity DESC
+LIMIT 5;
+
+-------------------------------------------------------------------
+
+-- GROUP BY & HAVING funcions.
+
+"GROUP BY" is often used with aggregate functions like COUNT(), MAX(), MIN(), SUM() and AVG() and located after the "WHERE" clause for when we are counting the total amount and want to group the results by categories.
+"HAVING" is located after the GROUP BY and WHERE clause. It is used when we want to add another condition to our query, but it already contains an aggregated function.
+
+-------------------------------------------------------------------
+
+1. Total price per customer. Show those who have more than 100 euros in the shopping cart.
+
+DELIMITER $$
+CREATE PROCEDURE calc_expenditure_customer(
+	IN var_customer_id INT
+)
+BEGIN
+	SELECT CONCAT(c.forename, ' ', c.lastname) AS customer_name, SUM(o.quantity * p.product_unit_price) AS total
+	FROM orders AS o
+	INNER JOIN customer AS c ON o.customer_id = c.customer_id
+	INNER JOIN product AS p ON o.product_id = p.product_id
+	WHERE o.customer_id = var_customer_id;
+END $$
+DELIMITER ;
+
+-------------------------------------------------------------------
+
+2. Total number of items per customer. Average number of items that customers put in their shopping cart.
+
+SELECT CONCAT(c.forename, ' ', c.lastname) AS customer_name, 
+SUM(o.quantity) AS quantity
+FROM orders AS o
+INNER JOIN customer AS c ON o.customer_id = c.customer_id
+GROUP BY o.customer_id
+;
+
+-------------------------------------------------------------------
+
+SALES
+1. Total sales per year. Total sales per year 2 quarter. Total sales per order.
+
+DELIMITER $$
+CREATE PROCEDURE calc_expenditure_customer(
+	IN var_customer_id INT
+)
+BEGIN
+	SELECT SUM(p.product_unit_price * o.quantity) AS total_income
+	FROM orders AS o
+	INNER JOIN product AS p ON o.product_id = p.product_id;
+END $$
+DELIMITER ;
+
+-------------------------------------------------------------------
+
+2. Top 10 best selling products. Top 10 best buyers
+
+
+
+3. Latest product bought per customer.
+4. Least popular product.
+5. Average cost of each order. Average amount of ordered products.
