@@ -136,7 +136,7 @@ header {
     border: 1px solid var(--dark);
 }
 
-.menuFilters h2 {
+.menuFilters h3 {
     font-size: 24px;
 }
 
